@@ -11,6 +11,25 @@ type EccentricityRow = { position: string; load: string; indication: string; err
 type RepeatRow = { trial: number; load: string; indication: string; error: number | null; mpe: number | null; passed: boolean | null };
 type TareRow = { tare: string; load: string; indication: string; error: number | null; mpe: number | null; passed: boolean | null };
 
+function PassFail({ passed }: { passed: boolean | null }) {
+  if (passed === true) return <CheckCircle2 className="h-5 w-5 text-green-500" />;
+  if (passed === false) return <XCircle className="h-5 w-5 text-red-500" />;
+  return <span className="text-gray-300">—</span>;
+}
+
+function InputCell({ value, onChange, placeholder = "" }: { value: string; onChange: (v: string) => void; placeholder?: string }) {
+  return (
+    <input
+      type="number"
+      step="any"
+      value={value}
+      onChange={e => onChange(e.target.value)}
+      placeholder={placeholder}
+      className="block w-28 rounded-md border border-gray-300 px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
+  );
+}
+
 export default function RunTestPage({ params }: { params: Promise<{ reportId: string }> }) {
   const { reportId } = use(params);
   const router = useRouter();
@@ -115,12 +134,6 @@ export default function RunTestPage({ params }: { params: Promise<{ reportId: st
     recognition.start();
   };
 
-  const PassFail = ({ passed }: { passed: boolean | null }) => {
-    if (passed === true) return <CheckCircle2 className="h-5 w-5 text-green-500" />;
-    if (passed === false) return <XCircle className="h-5 w-5 text-red-500" />;
-    return <span className="text-gray-300">—</span>;
-  };
-
   const tableHead = (
     <thead className="bg-gray-50">
       <tr>
@@ -134,17 +147,6 @@ export default function RunTestPage({ params }: { params: Promise<{ reportId: st
         <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Result</th>
       </tr>
     </thead>
-  );
-
-  const InputCell = ({ value, onChange, placeholder = "" }: { value: string; onChange: (v: string) => void; placeholder?: string }) => (
-    <input
-      type="number"
-      step="any"
-      value={value}
-      onChange={e => onChange(e.target.value)}
-      placeholder={placeholder}
-      className="block w-28 rounded-md border border-gray-300 px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-    />
   );
 
   const submitTestResults = async () => {
