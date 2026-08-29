@@ -25,7 +25,7 @@ export default function AnalyticsDashboardPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Analytics &amp; Insights</h1>
-        <p className="text-gray-500">SIH AI-Powered intelligence for regulatory decision-making.</p>
+        <p className="text-gray-500">AI-Powered intelligence for regulatory decision-making.</p>
       </div>
 
       {/* Top KPIs */}
@@ -106,7 +106,7 @@ export default function AnalyticsDashboardPage() {
           </div>
 
           <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
-            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">OIML Copilot (SIH Feature)</p>
+            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">OIML Copilot</p>
             <div className="bg-gray-50 rounded p-3 text-sm text-gray-700 italic">
               "What is the MPE for a Class III scale at 1500e?"
             </div>

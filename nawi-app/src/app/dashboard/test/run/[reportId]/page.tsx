@@ -194,7 +194,7 @@ export default function RunTestPage({ params }: { params: Promise<{ reportId: st
           className={`flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-medium transition-colors ${isListening ? "bg-red-50 border-red-300 text-red-600 animate-pulse" : "bg-white border-gray-300 text-gray-600 hover:bg-gray-50"}`}
         >
           <Mic className="h-4 w-4" />
-          {isListening ? "Listening…" : "Voice Entry (SIH)"}
+          {isListening ? "Listening…" : "Voice Entry"}
         </button>
       </div>
 

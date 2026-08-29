@@ -49,7 +49,7 @@ export default function DashboardLayout({
           </Link>
           <Link href="/dashboard/analytics" className="flex items-center space-x-2 p-2 rounded hover:bg-gray-100 text-gray-700">
             <BarChart size={20} />
-            <span>Analytics (SIH)</span>
+            <span>Analytics</span>
           </Link>
         </nav>
         <div className="p-4 border-t">
