@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id            String       @id @default(cuid())
+  name          String?
+  email         String?      @unique
+  emailVerified DateTime?
+  image         String?
+  role          String       @default("TECHNICIAN") // ADMIN, TECHNICIAN
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  testReports   TestReport[]
+}
+
+model Instrument {
+  id                      String       @id @default(cuid())
+  manufacturer            String
+  model                   String
+  serialNumber            String       @unique
+  accuracyClass           String       // I, II, III, IIII
+  maxCapacity             Float
+  minCapacity             Float
+  verificationScaleInt_e  Float        // e
+  actualScaleInt_d        Float        // d
+  createdAt               DateTime     @default(now())
+  updatedAt               DateTime     @updatedAt
+  testReports             TestReport[]
+}
+
+model TestReport {
+  id              String       @id @default(cuid())
+  instrumentId    String
+  instrument      Instrument   @relation(fields: [instrumentId], references: [id])
+  testerId        String
+  tester          User         @relation(fields: [testerId], references: [id])
+  temperature     Float?
+  humidity        Float?
+  pressure        Float?
+  status          String       @default("DRAFT") // DRAFT, COMPLETED, FAILED
+  qrCodeHash      String?      @unique
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  testResults     TestResult[]
+}
+
+model TestResult {
+  id              String     @id @default(cuid())
+  reportId        String
+  report          TestReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  testType        String     // WEIGHING, ECCENTRICITY, REPEATABILITY, TARE
+  data            String     // JSON string to hold specific test observations
+  calculatedError Float?
+  mpe             Float?     // Maximum Permissible Error
+  passed          Boolean?
+  createdAt       DateTime   @default(now())
+}
