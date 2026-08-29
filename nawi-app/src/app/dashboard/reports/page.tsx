@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { fallbackStore } from "@/lib/store";
 import Link from "next/link";
 import { FileText, Eye } from "lucide-react";
 import { format } from "date-fns";
@@ -16,7 +17,11 @@ export default async function ReportsListPage() {
       orderBy: { createdAt: "desc" },
     });
   } catch (error) {
-    console.error("Failed to load reports:", error);
+    console.warn("DB query failed, using fallbackStore reports");
+  }
+
+  if (!reports || reports.length === 0) {
+    reports = fallbackStore.reports || [];
   }
 
   return (
