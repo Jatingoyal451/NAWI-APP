@@ -3,14 +3,21 @@ import Link from "next/link";
 import { FileText, Eye } from "lucide-react";
 import { format } from "date-fns";
 
+export const dynamic = "force-dynamic";
+
 export default async function ReportsListPage() {
-  const reports = await prisma.testReport.findMany({
-    include: {
-      instrument: true,
-      tester: true,
-    },
-    orderBy: { createdAt: "desc" },
-  });
+  let reports: any[] = [];
+  try {
+    reports = await prisma.testReport.findMany({
+      include: {
+        instrument: true,
+        tester: true,
+      },
+      orderBy: { createdAt: "desc" },
+    });
+  } catch (error) {
+    console.error("Failed to load reports:", error);
+  }
 
   return (
     <div className="space-y-6">
